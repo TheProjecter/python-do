@@ -1,11 +1,27 @@
 #!/usr/bin/env python
+######################################################################
+## Filename:      python-do
+##                
+## Description:   
+##                
+## Copyright (C) 2009,  EntertainYou
+## Author:        entertainyou <grubbyfans@gmail.com>
+## Created at:    Thu Apr 16 15:33:58 2009
+##                
+## Modified by:   entertainyou <grubbyfans@gmail.com>
+## Modified at:   Thu Apr 16 19:07:46 2009
+##                
+## Status:        Experimental, do not distribute.
+## Update count:  0
+##                
+######################################################################
 
 import pygtk
 pygtk.require('2.0')
 import gtk
+import ConfigParser
 
-class GUI:
-    
+class PythonDo:    
     def destroy(self,widget,data=None):
         gtk.main_quit()
     def load_dic(self):
@@ -31,6 +47,15 @@ class GUI:
                 self.dic.append(cmd)
         os.system("%s &" % cmd)
         gtk.main_quit()
+    def focus_out_cb(self, widget, event):
+        gtk.main_quit()
+    def key_press_cb(self, widget, event):
+        # print gtk.gdk.keyval_name(event.keyval), gtk.gdk.keyval_from_name('Esc'), gtk.gdk.keyval_from_name('Tab')
+        if event.keyval == gtk.gdk.keyval_from_name('Escape'):
+            gtk.main_quit()
+        elif event.keyval == gtk.gdk.keyval_from_name('Tab'):
+            return True
+        return False
     def __init__(self):
         window = gtk.Window(gtk.WINDOW_TOPLEVEL)
         window.set_default_size(200,10)
@@ -39,9 +64,10 @@ class GUI:
         height = screen.get_height()
         window.move((width-200)//2, height - 150)
         window.connect("delete_event", self.destroy)
-        box = gtk.VBox()
+        box = gtk.HBox()
         box.show()
         window.add(box)
+        window.set_decorated(False)
         self.completion = gtk.EntryCompletion()
         self.liststore = gtk.ListStore(str)
         self.dic = self.load_dic()
@@ -52,11 +78,30 @@ class GUI:
         self.entry = gtk.Entry()
         self.entry.set_completion(self.completion)
         self.entry.connect("activate", self.activate_cb)
+        self.entry.connect("key-press-event", self.key_press_cb)
+        self.entry.connect("focus-out-event", self.focus_out_cb)
         self.entry.show()
+        size = self.entry.size_request()[1]
+        self.image = gtk.Image()
+        pixbuf = gtk.gdk.pixbuf_new_from_file('/usr/share/pixmaps/deluge.png')
+        scaledbuf = pixbuf.scale_simple(size, size, gtk.gdk.INTERP_BILINEAR)
+        self.image.set_from_pixbuf(scaledbuf)
+        self.image.show()
+        box.pack_start(self.image, True, True, 0)
         box.pack_start(self.entry, True, True, 0)
         window.show()
+        # import os
+        # prefix = '/usr/share/applications/'
+        # config = ConfigParser.SafeConfigParser()
+        # for i in os.listdir(prefix):
+        #     filename = os.path.join(prefix, i)
+        #     if os.path.isfile(filename):
+        #         config.read(filename)
+        #         name = config.get('Desktop Entry', 'Name')
+        #         icon = config.get('Desktop Entry', 'Icon')
+        #         print name, icon
     def main(self):
         gtk.main()
 
-if __name__ == '__main__':
-    GUI().main()
+if __name__ == '__main__':    
+    PythonDo().main()
