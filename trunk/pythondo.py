@@ -15,7 +15,7 @@ def getpage(keyword):
         laf = keyword.encode('utf8')
     else :
         laf =keyword
-    print type(laf)v
+    print type(laf)
     URL= urllib.quote_plus(laf)
 
     print( URL,url)
