@@ -131,11 +131,16 @@ class LaunchBar(SearchBar):
         
     
     def suggest(self):
-    
+
+
+        if self.status :
+            self.status=self.makeWidgets()
+        
+        
         keywords = self.tabcomand(self.entry.get())
         SearchBar.makesug(self,keywords)
         print 'hahhhhhhhhhhhhhhhhhh'
-        self.entry.focus()
+        self.listbox.focus()
         pass
     def tabcomand(self,word):
         
