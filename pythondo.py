@@ -5,15 +5,8 @@
 # Lisence: GPL-2.0 
 from  Tkinter import *
 import os
-import suggoogle
-
-
-
 import urllib
 import urllib2,re
-
-
-
     
 
 def getpage(keyword):
@@ -31,7 +24,7 @@ def getpage(keyword):
     res.close()
     print html
     return html
-
+# 不错，比较有动画效果，bbs上的朋友你们好。。。。
 def getlist(page):
     p = re.compile(".*\[(.*)\].*")
     m = p.match(page)
@@ -42,15 +35,6 @@ def getlist(page):
 
 def getsug(keyword):
     return getlist(getpage(keyword))
-
-
-
-
-
-
-
-
-
 
 
 class SearchBar(Frame) :
@@ -81,22 +65,16 @@ class SearchBar(Frame) :
         keywords = suggoogle.getsug(self.entry.get())
         self.makesug(keywords)
         print 'hahhhhhhhhhhhhhhhhhh'
-        self.entry.focus()
+
         pass
 
-
-            
-            
-        
-     
-    
-        
-   
-    
     
     def handleList(self,event):
         index=self.listbox.curselection()
-        label=self.listbox.get(index)
+        if not type(index)==type(1) :
+            label =  self.listbox.get(0)
+        else :
+            label=self.listbox.get(index)
         self.runCommand(label)
     def makeWidgets(self):
 #        sbar=Scrollbar(self)
