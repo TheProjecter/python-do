@@ -57,7 +57,7 @@ class SearchBar(Frame) :
         #entry.bind('<Key>',self.onreturn)
         self.config(height=0)
         self.pack(fill=X)
-        self.makeWidgets()
+        self.status = True
     def run(self):
         
 
@@ -66,11 +66,12 @@ class SearchBar(Frame) :
         self.quit()
         pass
     def suggest(self):
-    
+        if self.status :
+            self.status=self.makeWidgets()
         keywords = getsug(self.entry.get())
         self.makesug(keywords)
         print 'hahhhhhhhhhhhhhhhhhh'
-
+        self.listbox.focus()
         pass
 
     
@@ -82,10 +83,11 @@ class SearchBar(Frame) :
             label=self.listbox.get(index)
         self.runCommand(label)
     def makeWidgets(self):
+        self.status = False
 #        sbar=Scrollbar(self)
         list=Listbox(self)
  #       sbar.config(command=list.yview)
-        list.config(height=0,font=('Courier New',12,'bold'))
+        list.config(height=0,font=('times',12,'bold'))
   #      sbar.pack(side=RIGHT,fill=Y)
         list.pack(side=LEFT,expand=YES,fill=X)
         
