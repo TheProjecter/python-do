@@ -55,7 +55,9 @@ class SearchBar(Frame) :
         entry.bind('<Tab>',(lambda event:self.suggest()))
         entry.bind('<Escape>',(lambda event:self.quit()))
         #entry.bind('<Key>',self.onreturn)
-        self.config(height=0)
+        ft1 = tkFont.Font(family = 'WenQuanYi Bitmap Song',size = 12)
+        entry.config(font=ft1)
+
         self.pack(fill=X)
         self.status = True
     def run(self):
@@ -77,18 +79,20 @@ class SearchBar(Frame) :
     
     def handleList(self,event):
         index=self.listbox.curselection()
-        #if not type(index)==type(1) :
-        #    label =  self.listbox.get(0)
-        #else :
-        label=self.listbox.get(index)
+        print index,'handlelistdebug'
+        if  index == () :
+            label =  self.listbox.get(0)
+        else :
+            label=self.listbox.get(index)
         self.runCommand(label)
     def makeWidgets(self):
         self.status = False
 #        sbar=Scrollbar(self)
         list=Listbox(self)
  #       sbar.config(command=list.yview)
-        ft1 = tkFont.Font(family = 'SimSun',size = 12,weight = tkFont.BOLD)
+        ft1 = tkFont.Font(family = 'WenQuanYi Bitmap Song',size = 12)
         list.config(height=0,font=ft1)
+        #self.entry.config(font=ft1)
   #      sbar.pack(side=RIGHT,fill=Y)
         list.pack(side=LEFT,expand=YES,fill=X)
         
@@ -98,7 +102,8 @@ class SearchBar(Frame) :
         self.listbox=list
 #        self.sbar=sbar
     def makesug(self,keywords):
-        self.pos=0
+        print 'makesug',len(keywords)
+        self.pos=1
         self.listbox.delete(0,END)
         for label in keywords:
             self.listbox.insert(self.pos,label)
@@ -107,7 +112,7 @@ class SearchBar(Frame) :
     def runCommand(self,selection):
         print selection
         self.entry.delete(0,END)
-        self.entry.insert(0,selection.encode('utf-8'))
+        self.entry.insert(0,selection)
         self.entry.focus()
         print 'focus'
         self.listbox.delete(0,END)
