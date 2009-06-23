@@ -11,7 +11,12 @@ import urllib2,re
 
 def getpage(keyword):
     url = "http://suggestion.baidu.com/su?wd="
-    URL= urllib.quote_plus(keyword.encode('utf-8'))
+    if type(keyword)==type(u"吴") :
+        laf = keyword.encode('utf8')
+    else :
+        laf =keyword
+    print type(laf)v
+    URL= urllib.quote_plus(laf)
 
     print( URL,url)
 
@@ -62,7 +67,7 @@ class SearchBar(Frame) :
         pass
     def suggest(self):
     
-        keywords = suggoogle.getsug(self.entry.get())
+        keywords = getsug(self.entry.get())
         self.makesug(keywords)
         print 'hahhhhhhhhhhhhhhhhhh'
 
