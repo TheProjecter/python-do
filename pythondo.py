@@ -46,7 +46,7 @@ class SearchBar(Frame) :
         self.entry = entry
         self.pos = 0
         entry.focus()
-        entry.bind('<Return>',self.run())
+        entry.bind('<Return>',(lambda e:self.run()))
         entry.bind('<Tab>',(lambda event:self.suggest()))
         entry.bind('<Escape>',(lambda event:self.quit()))
         #entry.bind('<Key>',self.onreturn)
@@ -86,10 +86,11 @@ class SearchBar(Frame) :
         
         list.bind('<Double-1>',self.handleList)
         list.bind('<Return>',self.handleList)
+        list.bind('<Escape>',(lambda e:self.quit()))
         self.listbox=list
 #        self.sbar=sbar
     def makesug(self,keywords):
-        self.pos=0
+        self.pos=1
         self.listbox.delete(0,END)
         for label in keywords:
             self.listbox.insert(self.pos,label)
@@ -113,7 +114,12 @@ class LaunchBar(SearchBar):
         SearchBar.__init__(self)
 
     def run(self):
-        os.system(self.entry.get()+' &')
+        print self.entry.get()+'xxxxxxxxxxxxxxxxxx'
+        os.system(self.entry.get()+" &")
+        print 'ddddddddddddddddd'
+        self.quit()
+        pass
+        
     
     def suggest(self):
     
