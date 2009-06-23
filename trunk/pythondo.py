@@ -110,8 +110,10 @@ class SearchBar(Frame) :
         self.entry.focus()
         print 'focus'
         self.listbox.delete(0,END)
+        self.listbox.destroy()
+        self.status = True
+        self.config(height=5)
         self.pos = 0
-
         #        self.sbar.config(height=0)
         print 'haha'
 
