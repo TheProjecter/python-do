@@ -7,7 +7,7 @@ from  Tkinter import *
 import os
 import urllib
 import urllib2,re
-    
+import tkFont    
 
 def getpage(keyword):
     url = "http://suggestion.baidu.com/su?wd="
@@ -77,17 +77,18 @@ class SearchBar(Frame) :
     
     def handleList(self,event):
         index=self.listbox.curselection()
-        if not type(index)==type(1) :
-            label =  self.listbox.get(0)
-        else :
-            label=self.listbox.get(index)
+        #if not type(index)==type(1) :
+        #    label =  self.listbox.get(0)
+        #else :
+        label=self.listbox.get(index)
         self.runCommand(label)
     def makeWidgets(self):
         self.status = False
 #        sbar=Scrollbar(self)
         list=Listbox(self)
  #       sbar.config(command=list.yview)
-        list.config(height=0,font=('times',12,'bold'))
+        ft1 = tkFont.Font(family = 'SimSun',size = 12,weight = tkFont.BOLD)
+        list.config(height=0,font=ft1)
   #      sbar.pack(side=RIGHT,fill=Y)
         list.pack(side=LEFT,expand=YES,fill=X)
         
@@ -97,7 +98,7 @@ class SearchBar(Frame) :
         self.listbox=list
 #        self.sbar=sbar
     def makesug(self,keywords):
-        self.pos=1
+        self.pos=0
         self.listbox.delete(0,END)
         for label in keywords:
             self.listbox.insert(self.pos,label)
